@@ -1,0 +1,131 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Slack Incoming Webhook API",
+    "description": "Simple spec for sending a formatted review notification to a Slack channel.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://hooks.slack.com"
+    }
+  ],
+  "paths": {
+    "/services/{team_id}/{channel_id}/{token}": {
+      "post": {
+        "operationId" : "postWebhook",
+        "summary": "Post a message to Slack",
+        "parameters": [
+          {
+            "name": "team_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "example": "T00000000"
+          },
+          {
+            "name": "channel_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "example": "B00000000"
+          },
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "example": "XXXXXXXXXXXXXXXXXXXXXXXX"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SlackMessage"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Message posted successfully"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SlackMessage": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "Fallback text for notifications"
+          },
+          "blocks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Block"
+            }
+          }
+        }
+      },
+      "Block": {
+        "type": "object",
+        "required": ["type"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["section"]
+          },
+          "block_id": {
+            "type": "string"
+          },
+          "text": {
+            "$ref": "#/components/schemas/TextObject"
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TextObject"
+            }
+          },
+          "accessory": {
+            "$ref": "#/components/schemas/Accessory"
+          }
+        }
+      },
+      "TextObject": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["mrkdwn", "plain_text"]
+          },
+          "text": {
+            "type": "string"
+          }
+        }
+      },
+      "Accessory": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["image"]
+          },
+          "image_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "alt_text": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
