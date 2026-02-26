@@ -50,7 +50,28 @@
         },
         "responses": {
           "200": {
-            "description": "Message posted successfully"
+            "description": "Message posted successfully",
+            "content": {
+              "text/plain": {}
+            }
+          },
+          "400": {
+            "description": "Bad Request - check the encoders",
+            "content": {
+              "text/plain": {}
+            }
+          },
+          "403": {
+            "description": "Forbidden - check your token",
+            "content": {
+              "text/plain": {}
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "text/plain": {}
+            }
           }
         }
       }
