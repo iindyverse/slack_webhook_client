@@ -1,7 +1,6 @@
 import gleam/bit_array
-import gleam/http/response
 import gleam/json
-import gleam/option.{Some}
+import gleam/option
 import gleam/result
 import gleam/string
 import simplifile.{read}
