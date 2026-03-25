@@ -1,9 +1,16 @@
 import gleam/http
+import gleam/http/request
 import gleam/http/response
 import oas/generator/utils
 import slack_webhook_client/schema
 
-pub fn post_webhook_request(base, team_id, channel_id, token_, data) {
+pub fn post_webhook_request(
+  base,
+  team_id,
+  channel_id,
+  token_,
+  data,
+) -> request.Request(BitArray) {
   let method = http.Post
   let path = "/services/" <> team_id <> "/" <> channel_id <> "/" <> token_
   let query = []
