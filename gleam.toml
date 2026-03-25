@@ -1,26 +1,20 @@
 name = "slack_webhook_client"
-version = "1.0.0"
+version = "1.0.1"
 
-# Fill out these fields if you intend to generate HTML documentation or publish
-# your project to the Hex package manager.
-#
-# description = ""
-# licences = ["Apache-2.0"]
-# repository = { type = "github", user = "", repo = "" }
-# links = [{ title = "Website", href = "" }]
-#
-# For a full reference of all the available options, you can have a look at
-# https://gleam.run/writing-gleam/gleam-toml/.
+description = "Minimal Gleam client for posting data to a Slack incoming Webhook"
+licences = ["Apache-2.0"]
+repository = { type = "github", user = "iindyverse", repo = "slack_webhook_client" }
+links = []
 
 [dependencies]
-gleam_stdlib = ">= 0.44.0 and <= 0.67.1"
-oas_generator_utils = ">= 1.1.0 and < 2.0.0"
 gleam_http = ">= 4.3.0 and < 5.0.0"
 gleam_json = ">= 3.1.0 and < 4.0.0"
+gleam_stdlib = ">= 0.44.0 and <= 0.67.1"
+oas_generator_utils = ">= 1.1.0 and < 2.0.0"
 
 [dev-dependencies]
 argv = ">= 1.0.2 and < 2.0.0"
 gleeunit = ">= 1.0.0 and < 1.9.0"
 oas_generator = ">= 2.3.1 and < 3.0.0"
-snag = ">= 1.2.0 and < 2.0.0"
 simplifile = ">= 2.3.2 and < 3.0.0"
+snag = ">= 1.2.0 and < 2.0.0"
