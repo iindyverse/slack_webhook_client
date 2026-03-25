@@ -1,31 +1,49 @@
-import gleam/http
+import gleam/bit_array
+import gleam/http.{Post}
 import gleam/http/request
 import gleam/http/response
-import oas/generator/utils
-import slack_webhook_client/schema
+import gleam/json
 
-pub fn post_webhook_request(
-  base,
-  team_id,
-  channel_id,
-  token_,
-  data,
-) -> request.Request(BitArray) {
-  let method = http.Post
-  let path = "/services/" <> team_id <> "/" <> channel_id <> "/" <> token_
-  let query = []
-  let body = utils.json_to_bits(schema.slack_message_encode(data))
-  base
-  |> utils.set_method(method)
-  |> utils.append_path(path)
-  |> utils.set_query(query)
-  |> utils.set_body("application/json", body)
+pub type BadURL {
+  BadURL(String)
 }
 
-pub fn post_webhook_response(response) {
-  let response.Response(status:, ..) = response
-  case status {
-    200 -> Ok(Ok(Nil))
-    _ -> Ok(Error(response))
+/// Generate a POST request
+/// 
+/// The request can be passed to
+/// 
+///     httpc.send_bits()
+pub fn post_webhook_request(
+  webhook_url: String,
+  payload: json.Json,
+) -> Result(request.Request(BitArray), BadURL) {
+  case request.to(webhook_url) {
+    Ok(req) -> {
+      let body = payload |> json.to_string() |> bit_array.from_string()
+      req
+      |> request.set_method(Post)
+      |> request.set_header("content-type", "application/json")
+      |> request.set_body(body)
+      |> Ok
+    }
+    Error(Nil) -> Error(BadURL(webhook_url))
+  }
+}
+
+/// Verify the response
+/// 
+/// Workflow:
+/// 
+///     webhook_url
+///     |> post_webhook_request()
+///     |> result.then(httpc.send_bits)
+///     |> result.then(post_webhook_response)
+pub fn post_webhook_response(
+  response: response.Response(BitArray),
+) -> Result(Int, response.Response(BitArray)) {
+  case response {
+    response.Response(status:, ..) if status >= 200 && status <= 204 ->
+      Ok(status)
+    _ -> Error(response)
   }
 }
