@@ -1,5 +1,5 @@
 name = "slack_webhook_client"
-version = "1.0.1"
+version = "1.0.2"
 
 description = "Minimal Gleam client for posting data to a Slack incoming Webhook"
 licences = ["Apache-2.0"]
@@ -9,7 +9,7 @@ links = []
 [dependencies]
 gleam_http = ">= 4.3.0 and < 5.0.0"
 gleam_json = ">= 3.1.0 and < 4.0.0"
-gleam_stdlib = ">= 0.44.0 and <= 0.67.1"
+gleam_stdlib = ">= 0.44.0 and < 2.0.0"
 oas_generator_utils = ">= 1.1.0 and < 2.0.0"
 
 [dev-dependencies]
